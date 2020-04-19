@@ -1,12 +1,13 @@
-﻿using BillingManagement.UI.ViewModels.Commands;
+﻿using BillingManagement.Models;
+using BillingManagement.UI.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BillingManagement.UI.ViewModels
 {
-    class MainViewModel : BaseViewModel
-    {
+	class MainViewModel : BaseViewModel
+	{
 		private BaseViewModel _vm;
 
 		public BaseViewModel VM
@@ -22,11 +23,12 @@ namespace BillingManagement.UI.ViewModels
 		InvoiceViewModel invoiceViewModel;
 
 		public ChangeViewCommand ChangeViewCommand { get; set; }
+		public RelayCommand NewCustomerCommand { get; private set; }
 
 		public MainViewModel()
 		{
 			ChangeViewCommand = new ChangeViewCommand(ChangeView);
-
+			NewCustomerCommand = new RelayCommand(NewCustomer);
 			customerViewModel = new CustomerViewModel();
 			invoiceViewModel = new InvoiceViewModel(customerViewModel.Customers);
 
@@ -47,5 +49,11 @@ namespace BillingManagement.UI.ViewModels
 			}
 		}
 
+		private void NewCustomer(object c)
+		{
+			Customer customer = new Customer();
+			customerViewModel.Customers.Add(customer);
+			customerViewModel.SelectedCustomer = customer;
+		}
 	}
 }
